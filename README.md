@@ -23,8 +23,9 @@
 /js/app.js                主程序：场景管理 / 自实现相机控制 / 排布算法 / 2D 绘制 / 导出 / 降级检测
 /vendor/three.min.js      Three.js r128（UMD 构建，MIT，已随仓库提供）
 /vendor/LICENSE-three.md  Three.js 授权与署名说明
-/需求文档.md              需求与科学口径文档（设计依据）
 ```
+
+> `需求文档.md`（需求与科学口径设计文档）为本地设计依据，未随仓库发布。
 
 ## 功能概览
 
