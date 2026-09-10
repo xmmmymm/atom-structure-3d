@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>原子结构模型</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <h1>原子结构 3D 示意模型</h1>
+    </div>
+    <nav class="tabs" id="mainTabs">
+      <button class="tab-btn" data-tab="1">① 原子构成与质量数</button>
+      <button class="tab-btn active" data-tab="2">② 核外电子排布</button>
+      <button class="tab-btn" data-tab="3">③ 模型的演变</button>
+    </nav>
+    <div class="header-actions">
+      <button id="btnHelp" class="btn btn-ghost">？ 帮助</button>
+      <button id="btnReset" class="btn btn-ghost">↺ 重置</button>
+    </div>
+  </div>
+</header>
+
+<main class="app-main">
+
+  <!-- ================= 页签① 原子构成与质量数 ================= -->
+  <section class="page hidden" id="page1">
+    <div class="layout">
+      <div class="stage-col">
+        <div class="stage stage-tall" id="view1">
+          <div class="stage-toolbar">
+            <span class="hint">✥ 拖拽旋转 · 滚轮缩放 · 点击原子核可放大</span>
+            <span class="toolbar-btns">
+              <button class="btn btn-small" id="btnView1Reset">↺ 重置视图</button>
+              <button class="btn btn-small" id="btnExport1">▣ 导出 3D 截图</button>
+            </span>
+          </div>
+          <div class="stage-badge" id="view1Badge">示意比例（非真实大小比例）</div>
+        </div>
+        <div class="note-bar">⚠ 原子的质量主要集中在原子核上（质子、中子的质量远大于电子）。</div>
+      </div>
+      <aside class="side" id="side1">
+        <div class="card">
+          <h2>元素与微粒控制</h2>
+          <div class="ctrl-row">
+            <label for="selElement">元素（1~20 号）</label>
+            <select id="selElement" class="select"></select>
+          </div>
+          <div class="ctrl-row step">
+            <span class="ctrl-label">质子数 Z（= 核电荷数）</span>
+            <span class="stepper">
+              <button id="btnZMinus" class="btn btn-step">－</button>
+              <span class="step-val" id="valZ">11</span>
+              <button id="btnZPlus" class="btn btn-step">＋</button>
+            </span>
+          </div>
+          <div class="ctrl-row step">
+            <span class="ctrl-label">中子数 N</span>
+            <span class="stepper">
+              <button id="btnNMinus" class="btn btn-step">－</button>
+              <span class="step-val" id="valN">12</span>
+              <button id="btnNPlus" class="btn btn-step">＋</button>
+            </span>
+          </div>
+          <div class="ctrl-row">
+            <span class="ctrl-label">常用元素快捷选择</span>
+            <span class="preset-row" id="elementPresets"></span>
+          </div>
+        </div>
+        <div class="card">
+          <h2>数值面板</h2>
+          <div class="panel" id="panel1"></div>
+          <div class="formula" id="formulaAN"></div>
+          <div class="badges" id="badges1"></div>
+        </div>
+        <div class="card">
+          <h2>实时解释</h2>
+          <div class="explain" id="explain1"></div>
+          <button id="btnRealScale" class="btn btn-wide">▣ 真实比例说明</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= 页签② 核外电子排布 ================= -->
+  <section class="page" id="page2">
+    <div class="layout">
+      <div class="stage-col">
+        <div id="singleWrap">
+          <div class="stage stage-tall" id="view2">
+            <div class="stage-toolbar">
+              <span class="hint">✥ 拖拽旋转 · 滚轮缩放 · 点击原子核可放大</span>
+              <span class="toolbar-btns">
+                <button class="btn btn-small" id="btnView2Reset">↺ 重置视图</button>
+                <button class="btn btn-small" id="btnExport3D">▣ 导出 3D 截图</button>
+              </span>
+            </div>
+            <div class="stage-badge warn" id="repBadge">教学示意，非真实轨道</div>
+          </div>
+        </div>
+
+        <div id="compareWrap" class="hidden">
+          <div class="compare-presets">
+            <span class="ctrl-label">对比预设：</span>
+            <button class="btn btn-small cmp-preset" data-preset="0">Na vs Na⁺</button>
+            <button class="btn btn-small cmp-preset" data-preset="1">Cl vs Cl⁻</button>
+            <button class="btn btn-small cmp-preset" data-preset="2">Ne vs Na⁺</button>
+          </div>
+          <div class="compare-grid">
+            <div class="cmp-side card">
+              <div class="cmp-head"><span class="cmp-tag left">左视图</span><span id="cmpSymL"></span></div>
+              <div class="ctrl-row">
+                <label>元素</label>
+                <select id="cmpSelL" class="select"></select>
+              </div>
+              <div class="ctrl-row step">
+                <span class="ctrl-label">核外电子数</span>
+                <span class="stepper">
+                  <button id="cmpEmLMinus" class="btn btn-step">－</button>
+                  <span class="step-val" id="cmpValEL">11</span>
+                  <button id="cmpEmLPlus" class="btn btn-step">＋</button>
+                </span>
+              </div>
+              <div class="stage stage-cmp" id="cmpViewL"></div>
+              <canvas class="cmp-2d" id="cmp2dL" width="300" height="300"></canvas>
+              <div class="panel panel-mini" id="cmpPanelL"></div>
+              <div class="badges" id="cmpBadgesL"></div>
+            </div>
+            <div class="cmp-side card">
+              <div class="cmp-head"><span class="cmp-tag right">右视图</span><span id="cmpSymR"></span></div>
+              <div class="ctrl-row">
+                <label>元素</label>
+                <select id="cmpSelR" class="select"></select>
+              </div>
+              <div class="ctrl-row step">
+                <span class="ctrl-label">核外电子数</span>
+                <span class="stepper">
+                  <button id="cmpEmRMinus" class="btn btn-step">－</button>
+                  <span class="step-val" id="cmpValER">11</span>
+                  <button id="cmpEmRPlus" class="btn btn-step">＋</button>
+                </span>
+              </div>
+              <div class="stage stage-cmp" id="cmpViewR"></div>
+              <canvas class="cmp-2d" id="cmp2dR" width="300" height="300"></canvas>
+              <div class="panel panel-mini" id="cmpPanelR"></div>
+              <div class="badges" id="cmpBadgesR"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-row" id="diagramRow">
+          <div class="diagram-box card">
+            <div class="diagram-title">2D 结构示意图</div>
+            <canvas id="canvas2d" width="340" height="340"></canvas>
+          </div>
+          <div class="legend-box card">
+            <div class="diagram-title">电子层图例</div>
+            <div id="layerLegend"></div>
+            <button id="btnExport2D" class="btn btn-wide">▣ 导出 2D 示意图（PNG）</button>
+            <div class="mini-note">结构示意图为教学示意图。</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side" id="side2">
+        <div class="card">
+          <h2>表征切换</h2>
+          <div class="seg" id="repSeg">
+            <button id="repOrbit" class="seg-btn active">玻尔轨道示意</button>
+            <button id="repCloud" class="seg-btn">电子云</button>
+          </div>
+          <div class="rep-note" id="repNote"></div>
+        </div>
+
+        <div class="card" id="modeCard">
+          <h2>排布模式</h2>
+          <div class="seg" id="modeSeg">
+            <button id="modeAuto" class="seg-btn active">自动排布</button>
+            <button id="modeManual" class="seg-btn">手动探究</button>
+          </div>
+          <div id="manualBox" class="hidden">
+            <p class="mini-note" id="manualIntroText"></p>
+            <div class="layer-btns">
+              <button class="btn layer-btn" data-layer="0">K 层 ＋<span class="cnt" id="cntK">0</span></button>
+              <button class="btn layer-btn" data-layer="1">L 层 ＋<span class="cnt" id="cntL">0</span></button>
+              <button class="btn layer-btn" data-layer="2">M 层 ＋<span class="cnt" id="cntM">0</span></button>
+              <button class="btn layer-btn" data-layer="3">N 层 ＋<span class="cnt" id="cntN">0</span></button>
+            </div>
+            <div class="manual-actions">
+              <button id="btnFixAll" class="btn">✓ 一键纠正</button>
+              <button id="btnClearShells" class="btn btn-ghost">✕ 清空</button>
+            </div>
+            <div id="manualMsg" class="manual-msg"></div>
+            <ul class="rule-list" id="ruleList"></ul>
+          </div>
+        </div>
+
+        <div class="card" id="ionCard">
+          <h2>核外电子数</h2>
+          <div class="ctrl-row step">
+            <span class="stepper">
+              <button id="btnEMinus" class="btn btn-step">－</button>
+              <span class="step-val" id="valE">11</span>
+              <button id="btnEPlus" class="btn btn-step">＋</button>
+            </span>
+          </div>
+          <div class="mini-note" id="ionNote"></div>
+        </div>
+
+        <div class="card">
+          <h2>动画与视图</h2>
+          <div class="ctrl-row wrap">
+            <button id="btnPlay" class="btn">⏸ 暂停</button>
+            <div class="seg" id="speedSeg">
+              <button class="seg-btn" data-speed="0.5">0.5×</button>
+              <button class="seg-btn active" data-speed="1">1×</button>
+              <button class="seg-btn" data-speed="2">2×</button>
+            </div>
+          </div>
+          <label class="check-row"><input type="checkbox" id="chkReduce" /> 减少动画模式（静态＋低负载）</label>
+          <label class="check-row"><input type="checkbox" id="chkTwinkle" /> 电子云轻微闪烁</label>
+          <label class="check-row"><input type="checkbox" id="chkShell" checked /> 显示电子层球壳</label>
+          <div class="ctrl-row">
+            <label for="rngOpacity">球壳透明度（0~0.6）</label>
+            <input type="range" id="rngOpacity" min="0" max="0.6" step="0.05" value="0.25" />
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>对比模式</h2>
+          <label class="check-row"><input type="checkbox" id="chkCompare" /> 开启左右对比</label>
+          <div class="mini-note">对比模式性能占用更高，帧率偏低时可开启"减少动画模式"。</div>
+        </div>
+
+        <div class="card">
+          <h2>数值面板</h2>
+          <div class="panel" id="panel2"></div>
+          <div class="badges" id="badges2"></div>
+        </div>
+
+        <div class="card">
+          <h2>实时解释</h2>
+          <div class="explain" id="explain2"></div>
+        </div>
+
+        <div class="card">
+          <h2>思考与讨论</h2>
+          <div id="discussion"></div>
+        </div>
+
+        <div class="card">
+          <h2>1~20 号元素排布数据表</h2>
+          <button id="btnToggleTable" class="btn btn-wide">▶ 展开数据表</button>
+          <div id="dataTableWrap" class="hidden"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= 页签③ 模型的演变 ================= -->
+  <section class="page hidden" id="page3">
+    <div class="layout">
+      <div class="stage-col">
+        <div class="timeline" id="modelTimeline"></div>
+        <div class="stage stage-tall" id="view3">
+          <div class="stage-toolbar">
+            <span class="hint">✥ 拖拽旋转 · 滚轮缩放</span>
+            <span class="toolbar-btns">
+              <button class="btn btn-small" id="btnView3Reset">↺ 重置视图</button>
+            </span>
+          </div>
+          <div class="stage-badge warn" id="modelBadge"></div>
+          <div class="stage-atom-tag" id="modelAtomTag"></div>
+        </div>
+        <div class="card alpha-card">
+          <button id="btnToggleAlpha" class="btn btn-wide">▶ 展开：α 粒子散射实验（示意动画）</button>
+          <div id="alphaWrap" class="hidden">
+            <canvas id="alphaCanvas" width="900" height="280"></canvas>
+            <div class="alpha-controls">
+              <button id="btnAlphaPlay" class="btn">▶ 播放 / 重播</button>
+              <span class="mini-note">⚠ 示意动画：仅示意"大多数直穿、少数偏转、极少数被弹回"的统计结果，非真实比例与轨迹。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="side">
+        <div class="card">
+          <h2>模型信息</h2>
+          <div id="modelInfo"></div>
+          <button id="btnEval" class="btn btn-wide">▶ 模型评价（能解释 / 局限）</button>
+          <div id="modelEval" class="hidden"></div>
+        </div>
+        <div class="card">
+          <h2>使用建议</h2>
+          <div class="explain">按时间轴从左到右依次查看五个模型，注意每个模型<b>能解释什么、无法解释什么</b>；再展开 α 粒子散射示意动画，体会"实验证据 → 修正模型"的科学过程。</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<!-- ================= 模态：真实比例说明 ================= -->
+<div class="modal hidden" id="modalScale">
+  <div class="modal-box">
+    <div class="modal-head"><h2>真实比例说明</h2><button class="btn btn-ghost modal-close">✕ 关闭</button></div>
+    <div class="modal-body" id="modalScaleBody"></div>
+  </div>
+</div>
+
+<!-- ================= 模态：帮助 ================= -->
+<div class="modal hidden" id="modalHelp">
+  <div class="modal-box modal-help">
+    <div class="modal-head">
+      <h2>帮助</h2>
+      <div class="modal-head-right">
+        <div class="seg" id="helpRoleSeg">
+          <button class="seg-btn active" data-role="student">学生版</button>
+          <button class="seg-btn" data-role="teacher">教师版</button>
+        </div>
+        <button class="btn btn-ghost modal-close">✕ 关闭</button>
+      </div>
+    </div>
+    <div class="seg help-tabs" id="helpTabs">
+      <button class="seg-btn active" data-sec="ops">操作说明</button>
+      <button class="seg-btn" data-sec="concepts">概念定义</button>
+      <button class="seg-btn" data-sec="science">科学性说明</button>
+      <button class="seg-btn" data-sec="history">科学史扩展</button>
+    </div>
+    <div class="modal-body help-body" id="helpBody"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<div id="fpsBanner" class="fps-banner hidden">
+  <span>⚠ 检测到画面帧率较低，建议开启"减少动画模式"。</span>
+  <button id="btnFpsReduce" class="btn btn-small">立即开启</button>
+  <button id="btnFpsClose" class="btn btn-ghost btn-small">✕</button>
+</div>
+
+<button id="btnSideToggle" class="side-toggle hidden">⚙ 控制面板</button>
+
+<script src="vendor/three.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# 依赖与构建产物（本项目无构建步骤，保留以防误入）
+node_modules/
+dist/
+*.log
+
+# 本地临时导出（3D 截图 / 2D 示意图 PNG）
+*.tmp.png
