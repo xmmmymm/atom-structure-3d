@@ -13,6 +13,16 @@
 
 > 想先看一眼效果：直接访问 [在线预览](https://xmmmymm.github.io/atom-structure-3d/)（GitHub Pages，内容与本地完全一致）。
 
+## 界面截图
+
+![原子构成与质量数：3D 原子、数值面板与实时代入算式](docs/images/screenshot-3d-atom.png)
+
+*页签①「原子构成与质量数」：左侧 3D 原子（红＝质子、灰＝中子）可拖拽旋转、点击原子核推近放大；右侧为 Z / N / A 数值面板与 `A = Z + N` 实时代入算式。*
+
+![核外电子排布：电子云表征与 2D 原子结构示意图](docs/images/screenshot-electron-cloud.png)
+
+*页签②「核外电子排布」：表征可在玻尔轨道示意与电子云之间切换（常驻"教学示意，非真实轨道"标注）；下方为 Canvas 实时自绘的 2D 原子结构示意图，可导出 PNG。*
+
 ## 文件结构
 
 ```
